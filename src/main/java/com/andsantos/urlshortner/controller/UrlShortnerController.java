@@ -16,7 +16,7 @@ public class UrlShortnerController {
         this.service = urlService;
     }
 
-    @PostMapping("/api/novo")
+    @PostMapping("/api/url")
     public ResponseEntity<UrlDTO> encurtar(@RequestBody UrlDTO url) {
         UrlDTO dto = service.encurtar(url.getUrl());
         return ResponseEntity.ok().body(dto);
