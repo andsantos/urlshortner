@@ -25,7 +25,7 @@ spring:
 
 logging:
   level:
-    ROOT: DEBUG
-    org.hibernate.SQL: DEBUG
-    com.andsantos.urlshortner: DEBUG
+    ROOT: INFO
+    org.hibernate.SQL: INFO
+    com.andsantos.urlshortner: INFO
         
