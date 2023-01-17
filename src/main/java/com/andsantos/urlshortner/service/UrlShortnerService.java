@@ -7,4 +7,5 @@ public interface UrlShortnerService {
 
     UrlDTO encurtar(String urlOriginal);
 
+    String obterURL(String chave);
 }

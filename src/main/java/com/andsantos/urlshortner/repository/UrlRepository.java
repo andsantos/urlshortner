@@ -6,9 +6,9 @@ import com.andsantos.urlshortner.model.entity.Url;
 
 public interface UrlRepository {
 
-    Url findByUrlOriginal(String urlOriginal);
+    Optional<Url> findByUrlOriginal(String urlOriginal);
 
-    Optional<Url> findById(String id);
+    Optional<Url> findByUrlReduzida(String urlReduzida);
 
     Url save(Url save);
 }

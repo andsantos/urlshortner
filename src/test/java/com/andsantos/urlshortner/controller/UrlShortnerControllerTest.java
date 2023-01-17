@@ -17,7 +17,7 @@ import com.andsantos.urlshortner.UrlshortnerApplication;
 
 @SpringBootTest(classes = UrlshortnerApplication.class)
 @AutoConfigureMockMvc
-public class UrlShortnerControllerTest {
+class UrlShortnerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

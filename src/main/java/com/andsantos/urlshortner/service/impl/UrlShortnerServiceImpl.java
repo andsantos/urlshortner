@@ -1,6 +1,7 @@
 package com.andsantos.urlshortner.service.impl;
 
 import java.math.BigInteger;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import com.andsantos.urlshortner.service.UrlShortnerService;
 @Transactional
 public class UrlShortnerServiceImpl implements UrlShortnerService {
     @Value("${urlshortner.urlbase}")
-    private String URL_BASE;
+    private String urlBase;
 
     private static final String[] BASE62CHARS = 
             "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -30,20 +31,22 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     @Override
     public UrlDTO encurtar(String urlOriginal) {
 
-        Url url = repository.findByUrlOriginal(urlOriginal);
+        Optional<Url> optional = repository.findByUrlOriginal(urlOriginal);
 
-        if (url == null) {
-            int id = gerarId();
-            String hash = toBase62(id);
-
-            url = new Url();
-            url.setUrlOriginal(urlOriginal);
-            url.setUrlReduzida(hash);
-
-            repository.save(url);
+        if (optional.isPresent()) {
+            return new UrlDTO(urlBase + optional.get().getUrlReduzida());
         }
 
-        return new UrlDTO(URL_BASE + url.getUrlReduzida());
+        int id = gerarId();
+        String hash = toBase62(id);
+
+        Url url = new Url();
+        url.setUrlOriginal(urlOriginal);
+        url.setUrlReduzida(hash);
+
+        repository.save(url);
+
+        return new UrlDTO(urlBase + url.getUrlReduzida());
     }
 
     protected int gerarId() {
@@ -55,15 +58,26 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     }
 
     protected String toBase62(int num) {
-        String converted = "";
+        StringBuilder converted = new StringBuilder();
 
         while (num / 62 != 0) {
             int remainder = num % 62;
-            converted += BASE62CHARS[remainder];
+            converted.append(BASE62CHARS[remainder]);
             num = num / 62;
         }
 
-        return new StringBuilder(converted).reverse().toString();
+        return converted.reverse().toString();
+    }
+
+    @Override
+    public String obterURL(String chave) {
+        Optional<Url> optional = repository.findByUrlReduzida(chave);
+
+        if (optional.isPresent()) {
+            return optional.get().getUrlOriginal();
+        }
+
+        return null;
     }
 
 }
