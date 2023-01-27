@@ -71,7 +71,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
 
     @Override
     public String obterURL(String chave) {
-        Optional<Url> optional = repository.findByUrlReduzida(chave);
+        Optional<Url> optional = repository.findById(chave);
 
         if (optional.isPresent()) {
             return optional.get().getUrlOriginal();

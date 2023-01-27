@@ -13,7 +13,6 @@ import lombok.Setter;
 public class Url {
 
     @Id
-    @Indexed
 	private String urlReduzida;
 
     @Indexed
