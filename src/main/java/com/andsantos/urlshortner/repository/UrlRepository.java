@@ -8,7 +8,7 @@ public interface UrlRepository {
 
     Optional<Url> findByUrlOriginal(String urlOriginal);
 
-    Optional<Url> findByUrlReduzida(String urlReduzida);
+    Optional<Url> findById(String urlReduzida);
 
     Url save(Url save);
 }

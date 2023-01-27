@@ -1,4 +1,4 @@
-package com.andsantos.urlshortner.repository.jpa;
+package com.andsantos.urlshortner.repository.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
