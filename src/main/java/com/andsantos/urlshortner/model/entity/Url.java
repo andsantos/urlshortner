@@ -1,21 +1,21 @@
 package com.andsantos.urlshortner.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "urls")
+@RedisHash("urls")
 public class Url {
 
     @Id
+    @Indexed
 	private String urlReduzida;
 
-    @Column
+    @Indexed
 	private String urlOriginal;
 }

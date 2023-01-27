@@ -4,24 +4,9 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/urlshortner;DB_CLOSE_DELAY=-1
-    username: urlshortner
-    password:
-    hikari:
-      poolName: Hikari
-      auto-commit: false
-  h2:
-    console:
-      # disable spring boot built-in h2-console since we start it manually with correct configuration
-      enabled: false
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
 
 logging:
   level:
