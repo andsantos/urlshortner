@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.andsantos.urlshortner.UrlshortnerApplication;
 
@@ -23,7 +22,6 @@ class UrlShortnerControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @Transactional
     void encurtarURL() throws Exception {
         String content = obterResultado();
         String outroContent = obterResultado();
