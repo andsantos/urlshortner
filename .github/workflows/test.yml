@@ -20,8 +20,8 @@ jobs:
     runs-on: ${{ matrix.OS }}
     strategy:
       matrix:
-        # OS: ['ubuntu-20.04', 'ubuntu-latest']
-        # OS: ['ubuntu-latest']
+        #OS: ['ubuntu-20.04', 'ubuntu-latest']
+        OS: ['ubuntu-latest']
         java: [ '17', '>=17' ]
     steps:
     - uses: actions/checkout@v3
