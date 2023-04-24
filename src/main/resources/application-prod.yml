@@ -24,10 +24,35 @@ spring:
         format_sql: true
 
   cache:
-    type: NONE
+    type: redis
+
+  redis:
+    host: redis-container
+    port: 6379
 
 logging:
   level:
     ROOT: INFO
     org.hibernate.SQL: INFO
     com.andsantos.urlshortner: INFO
+
+management:
+  server:
+    port: 8081
+  metrics:
+    enable:
+      jvm: true
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      sla:
+        http:
+          server:
+            requests: 50ms, 100ms, 200ms, 400ms
+    tags:
+      application: urlshortner
+  endpoints:
+    web:
+      exposure:
+        include: "*"

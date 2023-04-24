@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
         url.setUrlOriginal(urlOriginal);
         url.setUrlReduzida(hash);
 
-        repository.save(url);
+        salvarURL(url);
 
         return new UrlDTO(urlBase + url.getUrlReduzida());
     }
@@ -70,6 +72,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     }
 
     @Override
+    @Cacheable(value = "urls", key = "#p0")
     public String obterURL(String chave) {
         Optional<Url> optional = repository.findById(chave);
 
@@ -80,4 +83,8 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
         return null;
     }
 
+    @CachePut(value = "urls", key = "#url.urlReduzida")
+    public void salvarURL(Url url) {
+        repository.save(url);
+    }
 }
