@@ -1,0 +1,38 @@
+version: '1'
+
+networks:
+  cache:
+    internal: true
+  api:
+    internal: true
+
+services:
+  redis-urlshortner-api:
+    image: redis
+    container_name: redis-urlshortner-api
+    restart: unless-stopped
+    expose:
+      - 6379
+    networks:
+      - cache
+
+  app-urlshortner-api:
+    build:
+      context: ./app/
+      dockerfile: Dockerfile
+    image: app-forum-api
+    container_name: app-urlshortner-api
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
+    restart: unless-stopped
+    networks:
+      - api
+      - database
+      - cache
+    depends_on:
+      - redis-urlshortner-api
+    healthcheck:
+      test: "curl -sS http://app-urlshortner-api:8081/actuator/health"
+      interval: 1s
+      timeout: 30s
+      retries: 60
