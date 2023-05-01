@@ -25,7 +25,7 @@ public class UrlShortnerController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/{codigo}")
+    @GetMapping("/u/{codigo}")
     public RedirectView redirecionar(@PathVariable String codigo) {
         RedirectView redirectView = new RedirectView();
         String url = service.obterURL(codigo);
