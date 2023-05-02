@@ -1,15 +1,19 @@
-version: '1'
+version: '3.3'
 
 networks:
   cache:
     internal: true
   api:
-    internal: true
+#    internal: true
+#  proxy:
+
+volumes:
+  app-logs:
 
 services:
-  redis-urlshortner-api:
+  redis_container:
     image: redis
-    container_name: redis-urlshortner-api
+    container_name: redis_container
     restart: unless-stopped
     expose:
       - 6379
@@ -18,21 +22,25 @@ services:
 
   app-urlshortner-api:
     build:
-      context: ./app/
+      context: .
       dockerfile: Dockerfile
-    image: app-forum-api
+    image: app-urlshortner-api
     container_name: app-urlshortner-api
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - app-logs:/var/log/app
     networks:
       - api
-      - database
       - cache
+#      - proxy
     depends_on:
-      - redis-urlshortner-api
-    healthcheck:
-      test: "curl -sS http://app-urlshortner-api:8081/actuator/health"
-      interval: 1s
-      timeout: 30s
-      retries: 60
+      - redis_container
+#    healthcheck:
+#      test: "curl -sS http://localhost:8080/actuator/health"
+#      interval: 1s
+#      timeout: 30s
+#      retries: 60

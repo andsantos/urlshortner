@@ -1,4 +1,4 @@
-urlshortner.urlbase: http://localhost:8080/
+urlshortner.urlbase: http://localhost:8080/u/
 
 server:
   port: 8080
