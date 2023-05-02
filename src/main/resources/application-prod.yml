@@ -1,4 +1,5 @@
-urlshortner.urlbase: http://localhost:8080/
+urlshortner.urlbase: http://localhost:8080/u/
+urlshortner.error404: http://localhost:8080/404
 
 server:
   port: 8080
@@ -26,18 +27,23 @@ spring:
       hibernate:
         format_sql: true
 
+  data:
+    redis:
+      repositories:
+        enabled: false
+
   cache:
     type: redis
 
   redis:
-    host: redis-container
+    host: redis_container
     port: 6379
 
 logging:
   file:
     max-size: 50mb
     max-history: 10
-    path: /var/log/urlshortner.log
+    path: /var/log/app
   level:
     ROOT: INFO
     org.hibernate.SQL: INFO

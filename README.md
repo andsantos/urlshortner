@@ -4,9 +4,11 @@ URL Shortner
 
 -Dspring.profiles.active=test
 
+# Maven
+mvn package -DskipTests
+
 # Docker
 
-Exemplo:
-docker build -t andsantos/urlshorer:0.0.1 .
+docker build -t app-urlshortner-api .
 
-docker run -d -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=test" andsantos/urlshortner:0.0.1
+docker run -d -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=test" app-urlshortner-api
