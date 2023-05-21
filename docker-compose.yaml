@@ -6,26 +6,28 @@ networks:
   api:
 #    internal: true
 #  proxy:
+  monitoramento:
 
 volumes:
   app-logs:
+  prometheus-data:
 
 services:
-  redis_container:
+  urlshortner-redis:
     image: redis
-    container_name: redis_container
+    container_name: urlshortner-redis
     restart: unless-stopped
-    expose:
-      - 6379
+    ports:
+      - 6379:6379
     networks:
       - cache
 
-  app-urlshortner-api:
+  urlshortner-api:
     build:
       context: .
       dockerfile: Dockerfile
     image: app-urlshortner-api
-    container_name: app-urlshortner-api
+    container_name: urlshortner-api
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
     restart: unless-stopped
@@ -36,11 +38,31 @@ services:
     networks:
       - api
       - cache
-#      - proxy
     depends_on:
-      - redis_container
-#    healthcheck:
-#      test: "curl -sS http://localhost:8080/actuator/health"
-#      interval: 1s
-#      timeout: 30s
-#      retries: 60
+      - urlshortner-redis
+    healthcheck:
+      test: "curl -sS http://localhost:8080/actuator/health"
+      interval: 1s
+      timeout: 30s
+      retries: 60
+
+  urlshortner-prometheus:
+    image: prom/prometheus:latest
+    container_name: urlshortner-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - 9090:9090
+    networks:
+      - monitoramento
+      - api
+    depends_on:
+      - urlshortner-api

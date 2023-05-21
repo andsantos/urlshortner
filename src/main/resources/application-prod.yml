@@ -29,15 +29,17 @@ spring:
 
   data:
     redis:
+      host: urlshortner-redis
+      port: 6379
       repositories:
         enabled: false
 
   cache:
     type: redis
 
-  redis:
-    host: redis_container
-    port: 6379
+#  redis:
+#    host: 127.0.0.1
+#    port: 16379
 
 logging:
   file:
@@ -45,7 +47,7 @@ logging:
     max-history: 10
     path: /var/log/app
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     org.hibernate.SQL: INFO
     com.andsantos.urlshortner: INFO
   pattern:
