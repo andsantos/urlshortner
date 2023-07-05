@@ -11,6 +11,7 @@ networks:
 volumes:
   app-logs:
   prometheus-data:
+  grafana-data:
 
 services:
   urlshortner-redis:
@@ -66,3 +67,16 @@ services:
       - api
     depends_on:
       - urlshortner-api
+
+  urlshortner-grafana:
+    image: grafana/grafana
+    container_name: urlshortner-grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - monitoramento
+    depends_on:
+      - urlshortner-prometheus
