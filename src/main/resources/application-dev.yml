@@ -1,0 +1,44 @@
+urlshortner.urlbase: http://localhost:8080/u/
+urlshortner.error404: http://localhost:8080/404
+
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://127.0.0.1:3306/urlshortner?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      repositories:
+        enabled: false
+
+  cache:
+    type: redis
+
+logging:
+  level:
+    ROOT: DEBUG
+    org.hibernate.SQL: INFO
+    com.andsantos.urlshortner: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
