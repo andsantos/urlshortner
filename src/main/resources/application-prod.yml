@@ -25,6 +25,7 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
   data:
@@ -36,10 +37,6 @@ spring:
 
   cache:
     type: redis
-
-#  redis:
-#    host: 127.0.0.1
-#    port: 16379
 
 logging:
   file:
