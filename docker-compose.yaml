@@ -2,7 +2,9 @@ version: '3.3'
 
 networks:
   cache:
-    internal: true
+#    internal: true
+  database:
+#    internal: true
   api:
 #    internal: true
 #  proxy:
@@ -12,6 +14,7 @@ volumes:
   app-logs:
   prometheus-data:
   grafana-data:
+  mysql-data:
 
 services:
   urlshortner-redis:
@@ -22,6 +25,26 @@ services:
       - 6379:6379
     networks:
       - cache
+
+  urlshortner-mysql:
+    image: mysql:8.1
+    container_name: urlshortner-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: 'urlshortner'
+      MYSQL_USER: 'urlshortner'
+      MYSQL_PASSWORD: 'QwErTy'
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    expose:
+      - 3306
+    networks:
+      - database
+    depends_on:
+      - urlshortner-redis
 
   urlshortner-api:
     build:
@@ -39,8 +62,9 @@ services:
     networks:
       - api
       - cache
+      - database
     depends_on:
-      - urlshortner-redis
+      - urlshortner-mysql
     healthcheck:
       test: "curl -sS http://localhost:8080/actuator/health"
       interval: 1s

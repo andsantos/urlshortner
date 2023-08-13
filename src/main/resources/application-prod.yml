@@ -10,22 +10,16 @@ spring:
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/urlshortner;DB_CLOSE_DELAY=-1
+    url: jdbc:mysql://urlshortner-mysql:3306/urlshortner?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: urlshortner
-    password:
+    password: QwErTy
     hikari:
       poolName: Hikari
       auto-commit: false
-  h2:
-    console:
-      # disable spring boot built-in h2-console since we start it manually with correct configuration
-      enabled: false
   jpa:
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
   data:
@@ -44,7 +38,7 @@ logging:
     max-history: 10
     path: /var/log/app
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     org.hibernate.SQL: INFO
     com.andsantos.urlshortner: INFO
   pattern:
