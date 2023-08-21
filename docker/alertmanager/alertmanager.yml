@@ -1,5 +1,5 @@
 global:
-  slack_api_url: 'https://hooks.slack.com/services/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'
+  slack_api_url: 'https://hooks.slack.com/services/{}/{}/{}'
 
 templates:
 - '/etc/alertmanager/template/*.tmpl'
