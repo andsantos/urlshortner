@@ -77,6 +77,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./docker/alert.rules:/etc/prometheus/alert.rules
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -119,3 +120,17 @@ services:
       - api
     depends_on:
       - urlshortner-api
+
+  urlshortner-alertmanager: 
+    image: prom/alertmanager
+    container_name: urlshortner-alertmanager
+    volumes: 
+      - ./docker/alertmanager:/etc/alertmanager/:ro
+    ports: 
+      - 9093:9093
+    command: 
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoramento
+    depends_on:
+      - urlshortner-prometheus
