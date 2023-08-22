@@ -1,5 +1,5 @@
 global:
-  slack_api_url: '${URL_SLACK}'
+  slack_api_url: 'https://url.com/token/'
 
 templates:
 - '/etc/alertmanager/template/*.tmpl'
