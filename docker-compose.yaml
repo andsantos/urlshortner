@@ -46,7 +46,7 @@ services:
     depends_on:
       - urlshortner-redis
 
-  urlshortner-api:
+  urlshortner-api: &api
     build:
       context: .
       dockerfile: Dockerfile
@@ -59,6 +59,8 @@ services:
       - 8080:8080
     volumes:
       - app-logs:/var/log/app
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     networks:
       - api
       - cache
@@ -70,6 +72,17 @@ services:
       interval: 1s
       timeout: 30s
       retries: 60
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: '0.3GB'
+
+  urlshortner-api2:
+    <<: *api
+    container_name: urlshortner-api2
+    ports:
+      - 8081:8080
 
   urlshortner-prometheus:
     image: prom/prometheus:latest
