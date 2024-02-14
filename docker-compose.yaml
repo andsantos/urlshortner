@@ -119,6 +119,20 @@ services:
     depends_on:
       - urlshortner-prometheus
 
+  urlshortner-loki:
+    image: grafana/loki
+    container_name: urlshortner-loki
+    command:
+        - -config.file=/etc/loki/local-config.yaml
+        - -print-config-stderr=true
+    ports:
+        - 3100:3100
+    networks:
+      - monitoramento
+      - api
+    depends_on:
+      - urlshortner-prometheus
+
   urlshortner-proxy:
     image: nginx
     container_name: urlshortner-proxy

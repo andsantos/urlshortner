@@ -32,19 +32,6 @@ spring:
   cache:
     type: redis
 
-logging:
-  file:
-    max-size: 50mb
-    max-history: 10
-    path: /var/log/app
-  level:
-    ROOT: INFO
-    org.hibernate.SQL: INFO
-    com.andsantos.urlshortner: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-
 management:
   metrics:
     enable:

@@ -22,5 +22,4 @@ scrape_configs:
 - job_name: app-urlshortner-api
   metrics_path: /actuator/prometheus
   static_configs:
-  - targets:
-    - urlshortner-api:8080
+  - targets: [ 'urlshortner-api:8080', 'urlshortner-api2:8080' ]

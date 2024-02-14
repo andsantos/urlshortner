@@ -25,9 +25,3 @@ spring:
 
   cache:
     type: NONE
-
-logging:
-  level:
-    ROOT: INFO
-    org.hibernate.SQL: INFO
-    com.andsantos.urlshortner: INFO
